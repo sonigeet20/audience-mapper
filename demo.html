@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracking Script Demo - Eternal Loader Pattern</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .method {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f9f9f9;
+      border-left: 4px solid #4CAF50;
+      border-radius: 4px;
+    }
+    .method h2 {
+      margin-top: 0;
+      color: #4CAF50;
+    }
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .highlight {
+      background: #ffffcc;
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+    .note {
+      background: #e3f2fd;
+      padding: 15px;
+      border-left: 4px solid #2196F3;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .success {
+      background: #e8f5e9;
+      border-left-color: #4CAF50;
+    }
+    .warning {
+      background: #fff3e0;
+      border-left-color: #ff9800;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 10px 10px 10px 0;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+    }
+    .button:hover {
+      background: #45a049;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .stat-card {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    .stat-label {
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+  
+  <!-- 
+    ═══════════════════════════════════════════════════════════════════
+    TRACKING SCRIPT - ETERNAL LOADER PATTERN
+    ═══════════════════════════════════════════════════════════════════
+    
+    This is the ONLY script you need to paste on your website.
+    It never needs to be updated - all updates happen automatically!
+    
+    Replace YOUR_CLOUDFRONT_DOMAIN with your actual CloudFront domain:
+    d1234567890.cloudfront.net (from AWS CDK outputs)
+  -->
+  
+  <!-- Method 1: Inline Loader (Recommended - no external dependency) -->
+  <script>
+    (function(){
+      var t=document.createElement('script');
+      t.async=1;
+      t.src='https://d21qcvva8ccdyb.cloudfront.net/v1/tracker.js?t='+Date.now();
+      t.setAttribute('data-website-id','demo-website-123');
+      t.setAttribute('data-api-endpoint','https://lmmspmhzezesexeyndvq.supabase.co/functions/v1/ingest-events');
+      t.setAttribute('data-obfuscation','moderate');
+      t.setAttribute('data-debug','true');
+      document.head.appendChild(t);
+    })();
+  </script>
+  
+  <!-- Method 2: External Loader (Alternative - requires hosted loader.min.js) -->
+  <!-- 
+  <script 
+    src="https://YOUR_CLOUDFRONT_DOMAIN/v1/loader.min.js"
+    data-website-id="demo-website-123"
+    data-api-endpoint="https://lmmspmhzezesexeyndvq.supabase.co/functions/v1/ingest-events"
+    data-obfuscation="moderate"
+    data-debug="true"
+    async defer>
+  </script>
+  -->
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Tracking Script Demo</h1>
+    <p class="subtitle">Demonstrating the eternal loader pattern - update tracking logic without changing website code</p>
+    
+    <div class="note success">
+      <strong>✅ Tracking Active!</strong> Open your browser console (F12) to see tracking events in real-time.
+    </div>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value">1.14 KB</div>
+        <div class="stat-label">Loader Size</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">17.3 KB</div>
+        <div class="stat-label">Main Script Size</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">~200ms</div>
+        <div class="stat-label">Load Time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Updates Needed</div>
+      </div>
+    </div>
+    
+    <div class="method">
+      <h2>📥 Installation Method 1: Inline Loader (Recommended)</h2>
+      <p>Copy this script into your <code>&lt;head&gt;</code> tag. No external dependencies!</p>
+      <div class="code-block">
+&lt;script&gt;
+(function(){
+  var t=document.createElement('script');
+  t.async=1;
+  t.src='https://<span class="highlight">YOUR_CLOUDFRONT_DOMAIN</span>/v1/tracker.js?t='+Date.now();
+  t.setAttribute('data-website-id','<span class="highlight">YOUR_WEBSITE_ID</span>');
+  document.head.appendChild(t);
+})();
+&lt;/script&gt;
+      </div>
+      <div class="note">
+        <strong>🔧 Configuration:</strong>
+        <ul>
+          <li>Replace <code>YOUR_CLOUDFRONT_DOMAIN</code> with: <strong>d21qcvva8ccdyb.cloudfront.net</strong></li>
+          <li>Replace <code>YOUR_WEBSITE_ID</code> with your website ID from dashboard</li>
+          <li>Optional: Add <code>data-obfuscation</code>, <code>data-debug</code>, etc.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="method">
+      <h2>📥 Installation Method 2: External Loader</h2>
+      <p>Host the loader script on your CDN (already uploaded to S3/CloudFront):</p>
+      <div class="code-block">
+&lt;script 
+  src="https://<span class="highlight">YOUR_CLOUDFRONT_DOMAIN</span>/v1/loader.min.js"
+  data-website-id="<span class="highlight">YOUR_WEBSITE_ID</span>"
+  async defer&gt;
+&lt;/script&gt;
+      </div>
+    </div>
+    
+    <div class="note warning">
+      <strong>⚠️ Important: Custom Domain Setup</strong>
+      <p>For production, use a custom domain instead of CloudFront domain:</p>
+      <ul>
+        <li><strong>Create CNAME:</strong> <code>cdn.yourdomain.com</code> → <code>d21qcvva8ccdyb.cloudfront.net</code></li>
+        <li><strong>Why?</strong> You can switch CDN providers without changing the script</li>
+        <li><strong>SSL:</strong> Request ACM certificate in AWS for custom domain</li>
+      </ul>
+    </div>
+    
+    <h2>🧪 Test Tracking Events</h2>
+    <p>Click these buttons to generate tracking events (check console):</p>
+    <button class="button" onclick="testPageView()">📄 Track Page View</button>
+    <button class="button" onclick="testCustomEvent()">🎯 Track Custom Event</button>
+    <button class="button" onclick="testAffiliateClick()">🔗 Track Affiliate Click</button>
+    <button class="button" onclick="checkTrackerStatus()">ℹ️ Tracker Status</button>
+    
+    <h2>🔄 How Updates Work</h2>
+    <div class="note">
+      <ol>
+        <li><strong>You deploy new tracker:</strong> Upload updated <code>tracker.js</code> to S3</li>
+        <li><strong>CloudFront cache expires:</strong> Wait 1 hour (or invalidate cache for immediate update)</li>
+        <li><strong>Websites automatically update:</strong> Next page load fetches new script</li>
+        <li><strong>Zero client action needed:</strong> No code changes on client websites ✅</li>
+      </ol>
+    </div>
+    
+    <h2>🌐 Custom Domain Setup (Recommended)</h2>
+    <div class="code-block">
+# Step 1: Create DNS CNAME record
+cdn.yourdomain.com  CNAME  d21qcvva8ccdyb.cloudfront.net
+
+# Step 2: Request SSL certificate in AWS ACM (us-east-1)
+# - Domain: cdn.yourdomain.com
+# - Validate via DNS or Email
+
+# Step 3: Add alternate domain in CloudFront distribution
+# - Alternate Domain Names (CNAMEs): cdn.yourdomain.com
+# - SSL Certificate: Select your ACM certificate
+
+# Step 4: Update loader script to use custom domain
+&lt;script&gt;
+  t.src='https://<span class="highlight">cdn.yourdomain.com</span>/v1/tracker.js';
+&lt;/script&gt;
+    </div>
+    
+    <h2>📊 What's Being Tracked</h2>
+    <ul>
+      <li>✅ Page views (automatic)</li>
+      <li>✅ Clicks on links, buttons, forms (automatic)</li>
+      <li>✅ Scroll depth (automatic)</li>
+      <li>✅ Video engagement (automatic)</li>
+      <li>✅ Rage clicks (automatic)</li>
+      <li>✅ Affiliate URL tracking (automatic if configured)</li>
+      <li>✅ Custom events (via API)</li>
+    </ul>
+    
+    <div class="note success">
+      <strong>🎉 Deployment Complete!</strong>
+      <p>Your tracking system is now live with the eternal loader pattern:</p>
+      <ul>
+        <li>✅ Supabase database configured (20+ tables)</li>
+        <li>✅ AWS infrastructure deployed (DynamoDB, Lambda, S3, CloudFront)</li>
+        <li>✅ Edge Functions deployed (event ingestion, webhooks)</li>
+        <li>✅ Tracking scripts uploaded (loader + main tracker)</li>
+        <li>✅ CloudFront domain: <strong>https://d21qcvva8ccdyb.cloudfront.net</strong></li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    function testPageView() {
+      if (window.tracker) {
+        window.tracker.trackPageView({ source: 'test' });
+        alert('✅ Page view tracked! Check console for details.');
+      } else {
+        alert('❌ Tracker not loaded yet. Please wait a few seconds.');
+      }
+    }
+    
+    function testCustomEvent() {
+      if (window.tracker) {
+        window.tracker.trackEvent('button_click', { 
+          button_name: 'Test Custom Event',
+          timestamp: new Date().toISOString()
+        });
+        alert('✅ Custom event tracked! Check console for details.');
+      } else {
+        alert('❌ Tracker not loaded yet. Please wait a few seconds.');
+      }
+    }
+    
+    function testAffiliateClick() {
+      if (window.tracker) {
+        // Simulate affiliate link click
+        const affiliateUrl = 'https://amazon.com/product/12345?tag=yoursite-20';
+        window.tracker.trackEvent('affiliate_click', { 
+          url: affiliateUrl,
+          source: 'demo'
+        });
+        alert('✅ Affiliate click tracked! Check console for details.');
+      } else {
+        alert('❌ Tracker not loaded yet. Please wait a few seconds.');
+      }
+    }
+    
+    function checkTrackerStatus() {
+      if (window.tracker) {
+        alert('✅ Tracker Status: ACTIVE\n\n' +
+              'Website ID: demo-website-123\n' +
+              'Script Version: Latest\n' +
+              'CDN: CloudFront\n' +
+              'Events Tracking: Enabled');
+      } else {
+        alert('❌ Tracker Status: NOT LOADED\n\nPlease wait a few seconds for the script to load.');
+      }
+    }
+    
+    // Auto-check tracker status on load
+    setTimeout(function() {
+      if (window.tracker) {
+        console.log('%c✅ Tracker Ready', 'color: green; font-size: 16px; font-weight: bold');
+        console.log('Tracker loaded successfully. Try clicking the test buttons above!');
+      } else {
+        console.warn('⚠️ Tracker not loaded yet. This is normal on first load.');
+      }
+    }, 2000);
+  </script>
+</body>
+</html>

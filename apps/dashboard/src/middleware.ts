@@ -1,0 +1,41 @@
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  // Protect dashboard routes
+  if (req.nextUrl.pathname.startsWith('/dashboard')) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/auth/login', req.url))
+    }
+  }
+
+  // Redirect to dashboard if already logged in
+  if (req.nextUrl.pathname.startsWith('/auth/')) {
+    if (session && !req.nextUrl.pathname.includes('/callback')) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
+    }
+  }
+
+  // Redirect root to dashboard or login
+  if (req.nextUrl.pathname === '/') {
+    if (session) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
+    } else {
+      return NextResponse.redirect(new URL('/auth/login', req.url))
+    }
+  }
+
+  return res
+}
+
+export const config = {
+  matcher: ['/', '/dashboard/:path*', '/auth/:path*'],
+}
