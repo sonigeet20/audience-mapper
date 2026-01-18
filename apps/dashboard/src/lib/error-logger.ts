@@ -88,9 +88,10 @@ export async function logIntegrationError(
   platform: string,
   error: Error,
   context: {
-    integrationId: string
+    integrationId?: string
     orgId: string
     action: string
+    [key: string]: any
   }
 ): Promise<void> {
   await logError({
@@ -101,7 +102,7 @@ export async function logIntegrationError(
     context: {
       platform,
       integration_id: context.integrationId,
-      action: context.action
+      ...context
     },
     source: `integration:${platform}`,
     org_id: context.orgId

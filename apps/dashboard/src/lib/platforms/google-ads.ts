@@ -1,4 +1,4 @@
-import { decryptCredentials } from '@tracking/shared/encryption'
+import { decryptCredentials } from '@tracking/shared'
 import { logIntegrationError } from '../error-logger'
 
 export interface GoogleAdsCredentials {

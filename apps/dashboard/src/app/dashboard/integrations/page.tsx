@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Plus, Link as LinkIcon, CheckCircle, XCircle, Settings, AlertCircle } from 'lucide-react'
-import { AddIntegrationModal } from './add-integration-modal'
+import AddIntegrationModal from './add-integration-modal'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
@@ -240,7 +240,7 @@ export default function IntegrationsPage() {
                           <Button size="sm" variant="outline" className="flex-1">
                             Configure
                           </Button>
-                          <Button size="sm" variant="outline" className="flex-1" variant="destructive">
+                        <Button size="sm" variant="destructive" className="flex-1">
                             Disconnect
                           </Button>
                         </div>
