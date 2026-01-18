@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function SignupPage() {
   const router = useRouter()
   const supabase = createClientComponentClient()
