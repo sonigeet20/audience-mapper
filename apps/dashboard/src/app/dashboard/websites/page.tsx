@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
+export const dynamic = 'force-dynamic'
+
 export default function WebsitesPage() {
   return (
     <div className="space-y-6">
