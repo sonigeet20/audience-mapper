@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const [supabase] = useState(() => createBrowserClient())
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
