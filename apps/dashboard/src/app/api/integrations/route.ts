@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase-server'
-import { encryptCredentials } from '@tracking/shared/encryption'
+import { encryptCredentials } from '@tracking/shared'
 import { logAPIError } from '@/lib/error-logger'
 import { NextRequest, NextResponse } from 'next/server'
 

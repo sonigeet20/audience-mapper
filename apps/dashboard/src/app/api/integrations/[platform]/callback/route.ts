@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase-server'
-import { decryptCredentials, encryptCredentials } from '@tracking/shared/encryption'
+import { decryptCredentials, encryptCredentials } from '@tracking/shared'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
