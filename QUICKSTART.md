@@ -1,165 +1,265 @@
-# Quick Start Guide
+# 🚀 Quick Start Guide - Audience Mapper
 
-## 🎯 5-Minute Setup
+## ✅ Current Status
 
-Get the tracking platform running locally in 5 minutes.
+### Deployed and Live
+- ✅ **Dashboard:** https://audience-mapper.vercel.app
+- ✅ **Tracking CDN:** https://d2o4mys7y6h0j6.cloudfront.net
+- ✅ **Database:** Supabase (20+ tables with RLS)
+- ✅ **AWS Infrastructure:** DynamoDB, Lambda, S3, CloudFront, SQS, EventBridge
+- ✅ **Edge Functions:** ingest-events, affiliate-webhook
 
-### Prerequisites
+---
 
-```bash
-node --version  # Should be 18+
-npm --version
+## 🎯 Next Steps
+
+### 1. Create Your Super Admin Account
+
+Go to: https://audience-mapper.vercel.app/auth/signup
+
+**Credentials (from CREDENTIALS.local.md):**
+- Email: geet@adquark.io
+- Password: Dang7898$
+
+### 2. Create Your First Organization
+
+After logging in:
+1. You'll be prompted to create an organization
+2. Name it "AdQuark" (or your company name)
+3. You'll automatically be the owner
+
+### 3. Add Your First Website
+
+1. Go to Dashboard → Websites
+2. Click "Add Website"
+3. Enter your website details:
+   - Name: "My Website"
+   - Domain: "example.com"
+   - Timezone: Your timezone
+4. Copy the tracking code provided
+
+### 4. Install Tracking Script
+
+Add this to your website's `<head>` tag:
+
+```html
+<script src="https://d2o4mys7y6h0j6.cloudfront.net/v1/loader.min.js" data-website-id="YOUR_WEBSITE_ID"></script>
 ```
 
-### 1. Install Dependencies
+Replace `YOUR_WEBSITE_ID` with the ID from step 3.
+
+### 5. Test Tracking
+
+1. Visit your website with the script installed
+2. Go back to Dashboard → Analytics
+3. You should see your page view appear within seconds
+
+### 6. Create Your First Audience Segment
+
+1. Go to Dashboard → Audiences
+2. Click "Create Segment"
+3. Add rules (e.g., "Visited /pricing page")
+4. Save the segment
+
+### 7. Connect Advertising Platforms (Optional)
+
+1. Go to Dashboard → Integrations
+2. Choose a platform (Google Ads, Facebook, TikTok, LinkedIn)
+3. Click "Connect" and follow OAuth flow
+4. Once connected, you can sync audiences to that platform
+
+---
+
+## 🧪 Test Locally
+
+### Start Development Server
 
 ```bash
-git clone <repository-url>
-cd tracking-script
-npm install
-```
-
-### 2. Configure Environment
-
-Create `apps/dashboard/.env.local`:
-
-```bash
-# Supabase (get from https://supabase.com/dashboard)
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-key
-```
-
-### 3. Set Up Database
-
-```bash
-# Install Supabase CLI
-npm install -g supabase
-
-# Link to your project
-cd packages/database
-supabase link --project-ref YOUR_PROJECT_REF
-
-# Run migrations
-supabase db push
-
-# Deploy Edge Functions
-supabase functions deploy ingest-events
-supabase functions deploy affiliate-webhook
-```
-
-### 4. Build Tracking Script
-
-```bash
-cd apps/tracking-script
-npm run build
-# Output: dist/tracker.min.js
-```
-
-### 5. Start Dashboard
-
-```bash
-cd apps/dashboard
+cd /Users/geetsoni/Downloads/tracking-script/apps/dashboard
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🎉
+Dashboard will be available at: http://localhost:3000
 
-## 🧪 Test the Tracking Script
+### All Credentials Available In:
+- `apps/dashboard/.env.local` - Environment variables
+- `CREDENTIALS.local.md` - All sensitive credentials
+- `DEPLOYMENT_INFO.md` - Full deployment documentation
 
-Create `test.html`:
+---
+
+## 📖 Key Files to Reference
+
+### Configuration
+- `/apps/dashboard/.env.local` - Local environment variables
+- `/CREDENTIALS.local.md` - All sensitive credentials (NEVER commit)
+- `/DEPLOYMENT_INFO.md` - Complete deployment information
+
+### Documentation
+- `/docs/ARCHITECTURE.md` - System architecture
+- `/docs/API.md` - API endpoints
+- `/docs/TRACKING.md` - Tracking implementation
+- `/docs/DEPLOYMENT.md` - Deployment guide
+- `/docs/OAUTH.md` - OAuth integration guide
+
+### Database
+- `/supabase/migrations/001_initial_schema.sql` - Main schema
+- `/supabase/migrations/002_user_managed_credentials.sql` - OAuth schema
+
+---
+
+## 🔧 Common Tasks
+
+### View Tracking Events
+```sql
+-- In Supabase SQL Editor
+SELECT * FROM events ORDER BY created_at DESC LIMIT 100;
+```
+
+### Check User Profiles
+```sql
+SELECT * FROM user_profiles ORDER BY last_seen DESC LIMIT 50;
+```
+
+### View Segments
+```sql
+SELECT * FROM segments WHERE organization_id = 'YOUR_ORG_ID';
+```
+
+### Check Integration Status
+```sql
+SELECT * FROM integrations WHERE organization_id = 'YOUR_ORG_ID';
+```
+
+---
+
+## 🎨 Example Integration
+
+Here's a complete example for a blog:
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tracking Test</title>
-  <script>
-    (function(w,d,s,o,f,js,fjs){
-      w['TrackingObject']=o;w[o]=w[o]||function(){(w[o].q=w[o].q||[]).push(arguments)};
-      js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
-      js.id=o;js.src=f;js.async=1;fjs.parentNode.insertBefore(js,fjs);
-    }(window,document,'script','tracker','http://localhost:3001/tracker.min.js'));
-
-    tracker('init', 'YOUR_TRACKING_CODE');
-    tracker('trackEvent', 'page_view');
-  </script>
+  <title>My Blog</title>
+  
+  <!-- Audience Mapper Tracking -->
+  <script src="https://d2o4mys7y6h0j6.cloudfront.net/v1/loader.min.js" 
+          data-website-id="abc123"></script>
 </head>
 <body>
-  <h1>Tracking Test</h1>
-  <button id="testBtn">Test Button</button>
+  <h1>Welcome to My Blog</h1>
+  
   <script>
-    document.getElementById('testBtn').addEventListener('click', function() {
-      tracker('trackEvent', 'button_click');
+    // Track custom event when user signs up
+    document.getElementById('signup-button').addEventListener('click', function() {
+      if (window.tracker) {
+        window.tracker.track('signup_started', {
+          plan: 'premium',
+          source: 'blog'
+        });
+      }
     });
+    
+    // Track conversion with revenue
+    function onPurchaseComplete(orderId, amount) {
+      if (window.tracker) {
+        window.tracker.track('purchase', {
+          order_id: orderId,
+          revenue: amount,
+          currency: 'USD'
+        });
+      }
+    }
   </script>
 </body>
 </html>
 ```
 
-Serve the tracking script:
+---
 
-```bash
-cd apps/tracking-script/dist
-python3 -m http.server 3001
-```
+## 🚨 Troubleshooting
 
-Open `test.html` in your browser and check the Network tab for events being sent!
+### Dashboard not loading
+1. Check Vercel deployment: https://vercel.com/geet-sonis-projects/audience-mapper
+2. View logs: `vercel logs --prod`
+3. Verify environment variables are set
 
-## 📋 Next Steps
+### Tracking not working
+1. Open browser console for errors
+2. Verify script URL is correct
+3. Check website_id is valid
+4. View events in Supabase: `SELECT * FROM events`
 
-1. **Add a Website**
-   - Go to Dashboard > Websites
-   - Click "Add Website"
-   - Copy tracking code
-   - Install on your site
+### OAuth not working
+1. Verify platform credentials in dashboard
+2. Check integration_errors table
+3. Test token refresh: Check DynamoDB cache
 
-2. **Configure Affiliate Tracking**
-   - Dashboard > Affiliate URLs
-   - Add impression pixels
-   - Set URL patterns for triggering
-
-3. **Create Audiences**
-   - Dashboard > Audiences
-   - Build segments with filters
-   - Set up platform integrations
-
-4. **Connect Ad Platforms**
-   - Dashboard > Integrations
-   - Authenticate with OAuth
-   - Configure sync settings
-
-## 🔧 Common Issues
-
-**Port already in use:**
-```bash
-# Change port
-npm run dev -- -p 3002
-```
-
-**Supabase connection error:**
-- Verify `.env.local` has correct credentials
-- Check Supabase project is active
-- Ensure API is enabled in Supabase Dashboard
-
-**Tracking script not loading:**
-- Verify CORS is configured in Supabase
-- Check browser console for errors
-- Ensure tracking code matches website record
-
-## 📚 Learn More
-
-- [Full README](./README.md) - Complete documentation
-- [Deployment Guide](./DEPLOYMENT.md) - Production deployment
-- [API Reference](./docs/api-reference.md) - API endpoints
-- [Architecture](./docs/architecture.md) - System design
-
-## 💬 Get Help
-
-- GitHub Issues: Report bugs
-- Discussions: Ask questions
-- Email: support@example.com
+### Local development issues
+1. Ensure `.env.local` exists in `apps/dashboard/`
+2. Run `npm install` in root and dashboard
+3. Check Node.js version (should be 18+)
 
 ---
 
-**Ready to go deeper?** Check out the [full documentation](./README.md) →
+## 📞 Support Resources
+
+### Live URLs
+- **Dashboard:** https://audience-mapper.vercel.app
+- **Supabase:** https://supabase.com/dashboard/project/lmmspmhzezesexeyndvq
+- **AWS Console:** https://console.aws.amazon.com (region: ap-south-1)
+- **Vercel:** https://vercel.com/geet-sonis-projects/audience-mapper
+- **GitHub:** https://github.com/sonigeet20/audience-mapper
+
+### Logs & Monitoring
+- **Vercel Logs:** `cd apps/dashboard && vercel logs --prod`
+- **Supabase Logs:** Project Dashboard → Logs
+- **CloudWatch:** AWS Console → CloudWatch → Logs
+- **Edge Function Logs:** Supabase → Functions → Logs
+
+---
+
+## ✨ Features Overview
+
+### Tracking
+- ✅ Page views (automatic)
+- ✅ Custom events
+- ✅ User properties
+- ✅ Session tracking
+- ✅ UTM parameters
+- ✅ Referrer tracking
+- ✅ Device & browser detection
+- ✅ IP geolocation
+
+### Analytics
+- ✅ Real-time dashboard
+- ✅ Event filtering
+- ✅ User timeline
+- ✅ Session replay (data only)
+- ✅ Conversion tracking
+
+### Audience Management
+- ✅ Rule-based segments
+- ✅ Real-time updates
+- ✅ Platform sync (Google, Facebook, TikTok, LinkedIn)
+- ✅ Export capabilities
+
+### Affiliate Tracking
+- ✅ Click tracking
+- ✅ Conversion attribution
+- ✅ Commission calculation
+- ✅ Multi-level referrals
+
+### Integrations
+- ✅ Google Ads (OAuth)
+- ✅ Facebook Ads (OAuth)
+- ✅ TikTok Ads (OAuth)
+- ✅ LinkedIn Ads (OAuth)
+- ✅ User-managed credentials
+- ✅ Encrypted storage
+- ✅ Token refresh automation
+
+---
+
+**Ready to start tracking? Go to: https://audience-mapper.vercel.app** 🚀

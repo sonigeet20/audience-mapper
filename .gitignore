@@ -47,3 +47,4 @@ dump.rdb
 *.tfstate
 *.tfstate.backup
 .terraform/
+CREDENTIALS.local.md
